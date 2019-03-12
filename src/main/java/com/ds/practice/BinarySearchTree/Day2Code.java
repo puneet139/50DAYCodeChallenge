@@ -144,7 +144,7 @@ public class Day2Code {
         }else{
             Node y = searchTree(num,root);
             if(y.right!=null){
-                return y.right.value;
+                return findTreeMinimum(y.right).value;
             }
             else {
                 Node p = y.parent;
