@@ -33,6 +33,7 @@ public class Day15Code {
             int firstNodeData = sc.nextInt();
             int secondNodeData = sc.nextInt();
             System.out.println(lca(root,firstNodeData,secondNodeData));
+            System.out.println(shortLCA(root,firstNodeData,secondNodeData).data);
         }
     }
 
@@ -117,5 +118,20 @@ public class Day15Code {
             nodesMap.put(n.data,parent.data);
         populateMap(n.left,n);
         populateMap(n.right,n);
+    }
+
+    private static Node shortLCA(Node root,int firstNode, int secondNode){
+        while(root!=null){
+            if(root.data==firstNode || root.data==secondNode)
+                return root;
+            if(root.data>firstNode && root.data>secondNode){
+                root=root.left;
+            }
+            else if(root.data<firstNode && root.data<secondNode){
+                root=root.right;
+            }
+            else break;
+        }
+        return root;
     }
 }
