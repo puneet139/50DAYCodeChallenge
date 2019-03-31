@@ -74,27 +74,38 @@ public class Day15Code {
     }
 
     private static Integer lca(Node root,int n1,int n2){
+        if(n1==root.data || n2==root.data)
+            return root.data;
+        if(n1==n2)
+            return n1;
+
         populateMap(root,null);
         List<Integer> parentList = new ArrayList<Integer>();
         int parent1 = nodesMap.get(n1);
         int parent2 = nodesMap.get(n2);
-        if(n1==root.data || n2==root.data)
-            return root.data;
         if(parent1!=-1 && (parent1==n2))
             return parent1;
         if(parent2!=-1 && (parent2==n1))
             return parent2;
+        if(parent1==parent2)
+            return parent1;
         while(parent1!=-1 && nodesMap.get(parent1)!=-1){
+            if(parentList.contains(nodesMap.get(parent1)) || parent2==nodesMap.get(parent1) || n2==nodesMap.get(parent1)){
+                return nodesMap.get(parent1);
+            }
             parentList.add(nodesMap.get(parent1));
             parent1 = nodesMap.get(parent1);
         }
         while(parent2!=-1 && nodesMap.get(parent2)!=-1){
-            if(parentList.contains(nodesMap.get(parent2)) || parent1==nodesMap.get(parent2)){
+            if(parentList.contains(nodesMap.get(parent2)) || parent1==nodesMap.get(parent2) || n1==nodesMap.get(parent2)){
                 return nodesMap.get(parent2);
             }
             parent2 = nodesMap.get(parent2);
         }
-        return -1;
+        if(parentList.contains(parent2))
+            return parent2;
+        else
+            return parent1;
     }
 
     private static void populateMap(Node n,Node parent){
